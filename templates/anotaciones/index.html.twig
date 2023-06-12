@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {# NOTAS #}
+    <section class="container mt-2">
+        <h1>Notas</h1>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-agregar-nota">
+            Agregar Nota
+        </button>
+        <div id="notas-container" class="contenedor"></div>
+        <div class="modal fade" id="modal-nota" tabindex="-1" role="dialog" aria-labelledby="modal-nota-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-nota-label"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" id="eliminar-nota">Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-agregar-nota" tabindex="-1" role="dialog" aria-labelledby="modal-agregar-nota-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-agregar-nota-label">Agregar Nota</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form-agregar-nota">
+                            <div class="form-group">
+                                <label for="titulo">Título:</label>
+                                <input type="text" class="form-control" id="titulo" name="titulo">
+                            </div>
+                            <div class="form-group">
+                                <label for="descripcion">Descripción:</label>
+                                <textarea class="form-control" id="descripcion" name="descripcion"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="btn-guardar-nota" data-dismiss="modal">Guardar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {# MOSTRAR LA TABLA PRODUCTOS #}
+    <section class="container">
+        <div class="table-responsive">
+            <h1>Busqueda en tienda</h1>
+            <table id="tabla-productos" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Marca</th>
+                        <th>Categoria</th>
+                        <th>Subcategoria</th>
+                        <th>Stock</th>
+                        <th>Estado</th>
+                        <th>Reservado</th>
+                        <th>Recogido</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Los datos de los productos se cargarán automáticamente aquí -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,46 @@
+.g--transicion {
+  transition: all .2s ease-in-out;
+}
+
+.g--transicion:hover {
+  transform: scale(1.1);
+  transition-duration: 500ms;
+}
+
+.g--transicion2 {
+  transition: all .2s ease-in-out;
+}
+
+.g--transicion2:hover {
+
+  background-color: rgba(13, 87, 247, 0.1);
+  transition-duration: 500ms;
+
+  transition-property: background-color border-radius;
+  transition-timing-function: linear;
+  border-radius: 10px;
+}
+
+.g--transicion3 {
+  transition: all .2s ease-in-out;
+}
+
+.g--transicion3:hover {
+  transition-duration: 500ms;
+  transition-property: font-size color;
+  border: 4px solid gray;
+  color: white;
+}
+.g--transicion2-oscuro {
+  transition: all .2s ease-in-out;
+}
+
+.g--transicion2-oscuro:hover {
+
+  background-color: rgba(13, 87, 247, 0.3);
+  transition-duration: 500ms;
+
+  transition-property: background-color border-radius;
+  transition-timing-function: linear;
+  border-radius: 10px;
+}

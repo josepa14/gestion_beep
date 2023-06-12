@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestionar Reservas{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Gestionar Reservas</h1>
+        <hr>
+        {% if pagination.getTotalItemCount == 0 %}
+            <p>No hay reservas pendientes.</p>
+        {% else %}
+            <table class="table">
+    <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Fecha de Reserva</th>
+            <th>Estado</th>
+            <th>Usuario</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for reserva in pagination %}
+            <tr>
+                <td>{{ reserva.Producto }}</td>
+                <td>{{ reserva.fechaReserva }}</td>
+                <td>{{ reserva.estado }}</td>
+                <td>{{ reserva.user }}</td>
+                <td>
+                    {% if reserva.estado == 'pendiente de recogida' %}
+                        <button class="btn btn-danger cancelar-reserva" data-reserva-id="{{ reserva.id }}">Cancelar Reserva</button>
+                        <button class="btn btn-success confirmar-venta" data-reserva-id="{{ reserva.id }}">Confirmar Venta</button>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+            {% if pagination.getTotalItemCount > pagination.getItemNumberPerPage %}
+                <div class="pagination mt-2">
+                    <ul class="pagination">
+                        {% set currentPage = pagination.getCurrentPageNumber %}
+				        {% set lastPage = pagination.getPageCount %}
+                        {% if currentPage > 1 %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: 1 })) }}">Primera</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage - 1 })) }}">Anterior</a>
+                            </li>
+                        {% endif %}
+
+                        {% for page in 1..lastPage %}
+                            {% if page == currentPage %}
+                                <li class="page-item active">
+                                    <a class="page-link bg-primary" href="#">{{ page }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: page })) }}">{{ page }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if currentPage < lastPage %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage + 1 })) }}">Siguiente</a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: lastPage })) }}">Última</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

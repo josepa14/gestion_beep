@@ -1,0 +1,182 @@
+{% extends 'base.html.twig' %}
+{% block title %}Página de Reservas
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4 mb-4">
+		<h1>Catalogo de Productos</h1>
+		<div class="container mt-4">
+			<h5>Filtrar productos por:</h5>
+			<form action="{{ path('reservas') }}" method="GET" class="form-inline mb-3 border border-primary rounded p-2 shadow">
+				<div class="row">
+					<div class="col">
+						<div class="form-group mb-3">
+							<label for="keyword" class="mr-2">Palabra clave:</label>
+							<input type="text" id="keyword" name="keyword" class="form-control" value="{{ app.request.query.get('keyword') }}">
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label for="categoria" class="mr-2">Categoría:</label>
+							<select id="categoria" name="categoria" class="form-control">
+								<option value="">Todas las disponibles</option>
+								<option value="moviles">Móviles</option>
+								<option value="tablets">Tablets</option>
+								<option value="ordenadores">Ordenadores</option>
+								<option value="perifericos">Periféricos</option>
+							</select>
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label for="subcategoria" class="mr-2">Subcategoría:</label>
+							<select id="subcategoria" name="subcategoria" class="form-control">
+								<option value="">Todas las disponibles</option>
+								<option value="auriculares">Auriculares</option>
+								<option value="baterias">Baterías</option>
+								<option value="cables">Cables</option>
+								<option value="carcasas">Carcasas</option>
+								<option value="cargadores">Cargadores</option>
+								<option value="discos_duros">Discos Duros</option>
+								<option value="fuentes_alimentacion">Fuentes de Alimentación</option>
+								<option value="impresoras">Impresoras</option>
+								<option value="pantallas">Pantallas</option>
+								<option value="placas_base">Placas Base</option>
+								<option value="portatiles">Portátiles</option>
+								<option value="ram">RAM</option>
+								<option value="ratones">Ratones</option>
+								<option value="teclados">Teclados</option>
+								<option value="torres">Torres</option>
+								<option value="otros">Otros</option>
+							</select>
+						</div>
+					</div>
+                    <div class="col">
+						<div class="form-group">
+							<label for="marca" class="mr-2">Marca</label>
+							<input type="text" id="marca" name="marca" class="form-control" value="{{ app.request.query.get('marca') }}">
+						</div>
+					</div>
+					<div class="col">
+						<div class="form-group">
+							<label for="precio" class="mr-2">Precio máximo:</label>
+							<input type="number" id="precio" name="precio" class="form-control" value="{{ app.request.query.get('precio') }}">
+						</div>
+					</div>
+                    <div class="col">
+						<div class="form-group">
+							<label for="precio" class="mr-2" disabled></label>
+							<button type="submit" value="filtrar" class="form-control btn btn-success">Filtrar</button>
+						</div>
+					</div>
+				
+				</div>
+			</form>
+		</div>
+    {# fin del bloque de filtrado #}
+
+		<div class="row row-cols-1 row-cols-md-2 row-cols-lg-4">
+			{% for producto in pagination %}
+				<div class="col mb-4 card-container">
+					<div class="card card-reservas">
+						{% if producto.imagen %}
+							<div style="overflow: hidden;">
+								<img src="{{ asset('images/' ~ producto.imagen) }}" style="max-width: 100%;" class="rounded-top">
+							</div>
+						{% else %}
+							Sin imagen
+						{% endif %}
+						<div class="card-body">
+							<h5 class="card-title"><b>{{ producto.nombre }}</b></h5>
+							<p class="card-text">Marca: <b>{{ producto.marca }}</b></p>
+							<p class="card-text">Estado: <b>{{producto.estado}}</b>                Precio: <b>{{ producto.precio }}</b>€</p>
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-{{ producto.id }}">Reservar producto</button>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+    {# fin del bloque de productos #}
+    {# bloque de modal #}
+	{% for producto in pagination %}
+		<div class="modal fade" id="modal-{{ producto.id }}" tabindex="-1" role="dialog" aria-labelledby="modal-{{ producto.id }}-label" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modal-{{ producto.id }}-label">Información del Producto</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<h3>{{ producto.nombre }}</h3>
+						<p>Marca:
+							{{ producto.marca }}</p>
+                            <p>Estado:
+							{{ producto.estado }}</p>
+                            <p>Precio:
+							{{ producto.precio }}€</p>
+                             <p>
+							{% if producto.imagen %}
+							<div style="overflow: hidden;">
+								<img src="{{ asset('images/' ~ producto.imagen) }}" style="max-width: 100%;" class="rounded-top">
+							</div>
+						    {% endif %}
+                            </p>
+						<!-- Agrega aquí el resto de la información del producto -->
+					</div>
+					<div class="modal-footer">
+						{% if is_granted('ROLE_USER') %}
+							<a href="#" class="btn btn-primary reservar-btn" data-toggle="modal" data-target="#modal-{{ producto.id }}" data-id="{{ producto.id }}" data-crear-reserva-url="{{ path('crear_reserva') }}" data-cargar-productos-url="{{ path('reservas') }}">Confirmar reserva</a>
+						{% else %}
+							<p>Debes autenticarte para poder reservar este producto.</p>
+						{% endif %}
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+
+	<div class="container">
+		{% if pagination.getTotalItemCount > pagination.getItemNumberPerPage %}
+			<div class="pagination mt-2">
+				<ul class="pagination">
+					{% set currentPage = pagination.getCurrentPageNumber %}
+					{% set lastPage = pagination.getPageCount %}
+					{% if currentPage > 1 %}
+						<li class="page-item">
+							<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: 1 })) }}">Primera</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage - 1 })) }}">Anterior</a>
+						</li>
+					{% endif %}
+
+					{% for page in 1..lastPage %}
+						{% if page == currentPage %}
+							<li class="page-item active">
+								<a class="page-link bg-primary" href="#">{{ page }}</a>
+							</li>
+						{% else %}
+							<li class="page-item">
+								<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: page })) }}">{{ page }}</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+
+					{% if currentPage < lastPage %}
+						<li class="page-item">
+							<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage + 1 })) }}">Siguiente</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: lastPage })) }}">Última</a>
+						</li>
+					{% endif %}
+				</ul>
+			</div>
+		{% endif %}
+	</div>
+
+{% endblock %}

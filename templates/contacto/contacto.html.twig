@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contacto{% endblock %}
+
+{% block body %}
+    <div class="container rounded bg-light shadow mt-4 mb-4 pt-4">
+    <h1>Contacto</h1>
+        <p class="border rounded fw-bold p-3">Desde esta pantalla podras enviarnos cualquier duda, sugerencia o solicitud de servicio tecnico a domicilio. O bien si lo prefieres tienes contacto directo desde la informacion que proporcionamos al pie de pagina.</p>
+
+    {{ form_start(form) }}
+        {{ form_row(form.nombre) }}
+        {{ form_row(form.telefono) }}
+        {{ form_row(form.asunto) }}
+        {{ form_row(form.descripcion) }}
+        {{ form_row(form.enviar) }}
+    {{ form_end(form) }}
+    </div>
+{% endblock %}

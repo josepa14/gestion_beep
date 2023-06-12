@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registro{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    <div class="container rounded mt-4 mb-4 p-4 shadow text-white  bg--semi">
+    <h1 class="text-white">¡Registrate en la pagina!</h1>
+    <p class="border rounded p-2 ">Bievenido, desde aqui podras crear una cuenta de usuario para disfrutar de los servicios que ofrecemos en Beep</p>
+    <p> 
+    {{ form_start(registrationForm, {'attr': {'id': 'formularios'}}) }}
+        {{ form_row(registrationForm.username) }}
+        {{ form_row(registrationForm.nombreCompleto) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.telefono) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Password'
+        }) }}
+         <div class="error-message">{{ form_errors(registrationForm.plainPassword) }}</div>
+        <button type="submit" class="btn btn-light m-3 p-2">Registrar</button>
+        
+    {{ form_end(registrationForm) }}
+    </div>
+{% endblock %}

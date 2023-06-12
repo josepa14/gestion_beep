@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mis Reservas
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+    
+		<h1>Mis Reservas</h1>
+        {% for flashMessage in app.flashes('reservaCancelada') %}
+		<div class="alert alert-success">{{ flashMessage }}</div>
+	{% endfor %}
+		<hr>
+		{% if reservas is empty %}
+			<p>No tienes ninguna reserva.</p>
+		{% else %}
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Producto</th>
+						<th>Fecha de Reserva</th>
+						<th>Estado</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for reserva in reservas %}
+						<tr>
+							<td>{{ reserva.producto }}</td>
+							<td>{{ reserva.fechaReserva}}</td>
+							<td>{{ reserva.estado }}</td>
+							<td>
+								 {% if reserva.estado not in ['cancelado', 'comprado'] %}
+									<button class="btn btn-danger cancelar-reserva" data-reserva-id="{{ reserva.id }}">Cancelar Reserva</button>
+								{% endif %}
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
+{% endblock %}

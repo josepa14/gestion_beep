@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Productos
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1 class="m-3">Gestionar Inventario</h1>
+		<a href="{{ path('app_productos_new') }}" class="btn btn-primary m-3">Agregar nuevo</a>
+		<div class="pagination mt-2">
+			<ul class="pagination">
+				{% set currentPage = pagination.getCurrentPageNumber %}
+				{% set lastPage = pagination.getPageCount %}
+
+				{% if currentPage > 1 %}
+					<li class="page-item">
+						<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: 1 })) }}">Primera</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage - 1 })) }}">Anterior</a>
+					</li>
+				{% endif %}
+
+				{% for page in 1..lastPage %}
+					{% if page == currentPage %}
+						<li class="page-item active">
+							<a class="page-link bg-primary" href="#">{{ page }}</a>
+						</li>
+					{% else %}
+						<li class="page-item">
+							<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: page })) }}">{{ page }}</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+
+				{% if currentPage < lastPage %}
+					<li class="page-item">
+						<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage + 1 })) }}">Siguiente</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: lastPage })) }}">Última</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nombre</th>
+					<th>Marca</th>
+					<th>Categoria</th>
+					<th>Subcategoria</th>
+					<th>Stock</th>
+					<th>Estado</th>
+					<th>Reservado</th>
+					<th>Recogido</th>
+					<th>Precio</th>
+					<th>Imagen</th>
+					<th>Acciones</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for producto in pagination %}
+					<tr>
+						<td>{{ producto.id }}</td>
+						<td>{{ producto.nombre }}</td>
+						<td>{{ producto.marca }}</td>
+						<td>{{ producto.categoria }}</td>
+						<td>{{ producto.subcategoria }}</td>
+						<td>{{ producto.stock }}</td>
+						<td>{{ producto.estado }}</td>
+						<td>{{ producto.reservado }}</td>
+						<td>{{ producto.recogido }}</td>
+						<td>{{ producto.precio }}€</td>
+						<td>
+							{% if producto.imagen %}
+								<div style="width: 90px; height: 50px; overflow: hidden;">
+									<img src="{{ asset('images/' ~ producto.imagen) }}" style="max-width: 100%; max-height: 100%;">
+								</div>
+							{% else %}
+								Sin imagen
+							{% endif %}
+						</td>
+						<td>
+							<ul class="pagination">
+								<li class="page-item">
+									<a href="{{ path('app_productos_show', {'id': producto.id}) }}" class="page-link">Ver</a>
+								</li>
+								<li class="page-item">
+									<a href="{{ path('app_productos_edit', {'id': producto.id}) }}" class="page-link">editar</a>
+								</li>
+							</ul>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="10">no records found</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<div class="pagination mt-2">
+			<ul class="pagination">
+				{% set currentPage = pagination.getCurrentPageNumber %}
+				{% set lastPage = pagination.getPageCount %}
+
+				{% if currentPage > 1 %}
+					<li class="page-item">
+						<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: 1 })) }}">Primera</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage - 1 })) }}">Anterior</a>
+					</li>
+				{% endif %}
+
+				{% for page in 1..lastPage %}
+					{% if page == currentPage %}
+						<li class="page-item active">
+							<a class="page-link bg-primary" href="#">{{ page }}</a>
+						</li>
+					{% else %}
+						<li class="page-item">
+							<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: page })) }}">{{ page }}</a>
+						</li>
+					{% endif %}
+				{% endfor %}
+
+				{% if currentPage < lastPage %}
+					<li class="page-item">
+						<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: currentPage + 1 })) }}">Siguiente</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({ page: lastPage })) }}">Última</a>
+					</li>
+				{% endif %}
+			</ul>
+		</div>
+	</div>
+
+{% endblock %}

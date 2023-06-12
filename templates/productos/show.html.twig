@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Productos
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Productos</h1>
+		<table class="table w-50">
+			<tbody>
+				<tr>
+					<th>Id</th>
+					<td>{{ producto.id }}</td>
+					<th>Nombre</th>
+					<td>{{ producto.nombre }}</td>
+					
+				</tr>
+			
+			
+				<tr>
+				<th>Marca</th>
+					<td>{{ producto.marca }}</td>
+					<th>Categoria</th>
+					<td>{{ producto.categoria }}</td>
+				</tr>
+				
+				<tr>
+				<th>Subcategoria</th>
+					<td>{{ producto.subcategoria }}</td>
+					<th>Stock</th>
+					<td>{{ producto.stock }}</td>
+				</tr>
+				<tr>
+				<th>Estado</th>
+					<td>{{ producto.estado }}</td>
+					<th>Reservado</th>
+					<td>{{ producto.reservado }}</td>
+				</tr>
+				<tr>
+				<th>Recogido</th>
+					<td>{{ producto.recogido }}</td>
+					<th>Precio</th>
+					<td>{{ producto.precio }}</td>
+				</tr>
+				<tr>
+
+					<th>Imagen</th>
+					<td>
+						<img src="{{ asset('images/' ~ producto.imagen) }}" style="max-width: 20%; max-height: 10%;"><td/>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<a href="{{ path('app_productos') }}" class="btn btn-primary mt-2">Volver a la lista</a></br>
+
+		<a href="{{ path('app_productos_edit', {'id': producto.id}) }}"class="btn btn-warning mt-2">editar</a>
+
+		{{ include('productos/_delete_form.html.twig') }}
+	</container>
+{% endblock %}
