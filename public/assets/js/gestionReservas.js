@@ -26,8 +26,6 @@ $(document).ready(function () {
       },
       success: function (response) {
         // La reserva se creó con éxito
-        // Aquí puedes realizar acciones adicionales, como mostrar una notificación o actualizar la interfaz de usuario
-        console.log('Reserva creada:', response);
         alert('Tu reserva se ha realizado correctamente.'); // Mostrar mensaje al usuario
         window.location.href = "/reservas";
       },
