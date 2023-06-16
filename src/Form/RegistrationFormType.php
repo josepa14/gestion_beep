@@ -74,6 +74,10 @@ class RegistrationFormType extends AbstractType
                     new NotBlank([
                         'message' => 'El campo teléfono no puede estar vacío',
                     ]),
+                    new Regex([
+                        'pattern' => '/^\d+$/',
+                        'message' => 'El número de teléfono solo puede contener dígitos, evite poner espacios',
+                    ]),
                     // Restricciones adicionales para el teléfono si las deseas...
                 ],
             ])
@@ -93,11 +97,11 @@ class RegistrationFormType extends AbstractType
                         'minMessage' => 'La contraseña debe tener al menos {{ limit }} caracteres.',
                         'max' => 4096,
                     ]),
-                    new Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{6,}$/
-                        ',
-                        'message' => 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.',
-                    ]),
+                    // new Regex([
+                    //     'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{6,}$/
+                    //     ',
+                    //     'message' => 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un carácter especial.',
+                    // ]),
 
                 ],
             ])

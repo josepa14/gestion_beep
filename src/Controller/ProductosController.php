@@ -22,6 +22,7 @@ class ProductosController extends AbstractController
     #[Route('/', name: 'app_productos', methods: ['GET'])]
     public function index(Request $request, PaginatorInterface $paginator, ProductosRepository $productosRepository): Response
 {
+    $this->denyAccessUnlessGranted('ROLE_WORKER');
     $query = $productosRepository->createQueryBuilder('p')
         ->getQuery();
 
@@ -39,6 +40,7 @@ class ProductosController extends AbstractController
     #[Route('/new', name: 'app_productos_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProductosRepository $productosRepository,EntityManagerInterface $entityManager,SluggerInterface $slugger): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_WORKER');
         $producto = new Productos();
         $form = $this->createForm(ProductosType::class, $producto);
         $form->handleRequest($request);
@@ -77,6 +79,7 @@ class ProductosController extends AbstractController
     #[Route('/{id}', name: 'app_productos_show', methods: ['GET'])]
     public function show(Productos $producto): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_WORKER');
         return $this->render('productos/show.html.twig', [
             'producto' => $producto,
         ]);
@@ -85,6 +88,8 @@ class ProductosController extends AbstractController
     #[Route('/{id}/edit', name: 'app_productos_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Productos $producto, ProductosRepository $productosRepository, EntityManagerInterface $entityManager): Response
 {
+
+     $this->denyAccessUnlessGranted('ROLE_WORKER');
     $form = $this->createForm(ProductosType::class, $producto);
     $form->handleRequest($request);
 
@@ -123,6 +128,7 @@ class ProductosController extends AbstractController
     #[Route('/{id}', name: 'app_productos_delete', methods: ['POST'])]
     public function delete(Request $request, Productos $producto, ProductosRepository $productosRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_WORKER');
         if ($this->isCsrfTokenValid('delete'.$producto->getId(), $request->request->get('_token'))) {
             $productosRepository->remove($producto, true);
         }

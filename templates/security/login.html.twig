@@ -11,6 +11,9 @@
 			<div class="shadow row d-flex align-items-center justify-content-center h-100 bg-white rounded p-4">
 				<div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1 g--transicion2 pt-2 pb-2">
 					<h3>Area de acceso a usuarios</h3>
+					{% for flashMessage in app.flashes('confirmacion') %}
+						<div class="alert alert-success">{{ flashMessage }}</div>
+					{% endfor %}
 					<form method="post" class="mt-5">
 						{% if error %}
 							<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -24,14 +27,14 @@
 							</div>
 						{% else %}
 							<div class="form-outline mb-4">
-							<label class="form-label" for="inputUsername">Usuario</label>
+								<label class="form-label" for="inputUsername">Usuario</label>
 								<input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control form-control-lg" autocomplete="username" required autofocus/>
-								
+
 							</div>
 							<div class="form-outline mb-4">
-							<label class="form-label" for="inputPassword">Password</label>
+								<label class="form-label" for="inputPassword">Password</label>
 								<input type="password" name="password" id="inputPassword" class="form-control form-control-lg" autocomplete="current-password" required/>
-								
+
 							</div>
 
 							<div class="d-flex justify-content-around mb-4">

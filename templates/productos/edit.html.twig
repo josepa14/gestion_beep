@@ -3,8 +3,9 @@
 {% block title %}Editar Productos{% endblock %}
 
 {% block body %}
+    
+    <div class="container mt-2">
     <h1>Editar Producto</h1>
-    <div class="container">
     {{ include('productos/_form.html.twig', {'button_label': 'Update'}) }}
 
     <a href="javascript:void(0);" onclick="history.back();" class="btn btn-primary mt-2">Volver</a>

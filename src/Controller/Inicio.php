@@ -10,6 +10,13 @@ class Inicio extends AbstractController
     #[Route(path: '/',name: 'index')]
     public function inicio(): Response
     {
+        $user = $this->getUser();
+
+        if ($user && !$user->isVerified()) {
+            $this->addFlash('auth', 'Tu cuenta aun no esta activada.');
+            return $this->redirectToRoute('app_logout');
+        }
+       
         return $this->render('index.html.twig');
     }
 }

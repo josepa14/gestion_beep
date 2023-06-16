@@ -77,6 +77,8 @@ class ReservaController extends AbstractController
     #[Route('/crear_reserva', name: 'crear_reserva')]
     public function crearReserva(Request $request, ManagerRegistry $doctrine, MailerInterface $mailer): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        
         $productoId = $request->request->get('productoId');
         $fechaReservaString = $request->request->get('fechaReserva', ''); //seguridad por si recibo una cadena vacia
         // Verifica si el usuario está autenticado
@@ -124,6 +126,7 @@ class ReservaController extends AbstractController
     #[Route('/mis_reservas', name: 'mis_reservas')]
     public function misReservas(ReservasRepository $reservasRepository, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $userId = $this->getUser()->getId();
         $reservas = $reservasRepository->findBy(['user' => $userId]);
 
@@ -144,6 +147,7 @@ class ReservaController extends AbstractController
     #[Route('/cancelar_reserva', name: 'cancelar_reserva', methods: ['POST'])]
     public function cancelarReserva(Request $request, ReservasRepository $reservaRepository, ProductosRepository $productoRepository, EntityManagerInterface $entityManager): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
         $reservaId = $request->request->get('reservaId');
         $reserva = $reservaRepository->find($reservaId);
 
@@ -176,16 +180,6 @@ class ReservaController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
     
-    //     $query = $reservasRepository->createQueryBuilder('r')
-    //         ->orderBy('r.fecha_reserva', 'DESC')
-    //         ->getQuery();
-        
-    //         $query = $reservasRepository->createQueryBuilder('r')
-    // ->select('r, producto.nombre as nombreProducto, usuario.username as nombreUsuario, usuario.email')
-    // ->leftJoin('r.producto', 'producto')
-    // ->leftJoin('r.usuario', 'user')
-    // ->orderBy('r.fecha_reserva', 'DESC')
-    // ->getQuery();
     $reservas = $reservasRepository->findAll();
 
         foreach ($reservas as $reserva) {
@@ -212,6 +206,7 @@ class ReservaController extends AbstractController
     #[Route('/confirmar_venta', name: 'confirmar_venta', methods: ['POST'])]
     public function confirmarReserva(Request $request, ReservasRepository $reservaRepository, EntityManagerInterface $entityManager): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $reservaId = $request->request->get('reservaId');
         $reserva = $reservaRepository->find($reservaId);
 

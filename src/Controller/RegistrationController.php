@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Usuarios;
 use App\Form\RegistrationFormType;
+use App\Repository\UsuariosRepository;
 use App\Security\AppLoginFormAuthenticator;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,9 +16,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use SymfonyCasts\Bundle\VerifyEmail\VerifyEmailHelperInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -49,7 +53,9 @@ class RegistrationController extends AbstractController
             $user->setIsVerified(false);
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('jcasper2112@g.educaand.es', 'Alvaro Montoro'))
                     ->to($user->getEmail())
@@ -66,22 +72,23 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
+    public function verifyUserEmail(Request $request,UsuariosRepository $usuariosRepository, VerifyEmailHelperInterface $verifyEmailHelper): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');  
+         try {
+                $this->emailVerifier->handleEmailConfirmation($request, $this->getUser()); 
+            } catch (VerifyEmailExceptionInterface $exception) {
+                $this->addFlash('verify_email_error',$exception->getReason());
 
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
+                return $this->redirectToRoute('registro');
+            }
 
-            return $this->redirectToRoute('index');
-        }
-
-        $this->addFlash('success', 'Tu direccion de email ha sido verificado correctamente.');
-
-        return $this->redirectToRoute('index');
+            $this->addFlash('success', 'Tu direccion de email ha sido verificado correctamente.');
+ 
+    
+    return $this->redirectToRoute('index');
     }
+    
 }

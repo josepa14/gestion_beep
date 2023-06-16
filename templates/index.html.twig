@@ -1,6 +1,9 @@
 {% extends "base.html.twig" %}
 {% block body %}
 	<div class="container mt-6">
+		{% for flash_error in app.flashes('verify_email_error') %}
+			<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+		{% endfor %}
 		{% for flashMessage in app.flashes('success') %}
 			<div class="alert alert-success">{{ flashMessage }}</div>
 		{% endfor %}
@@ -8,6 +11,9 @@
 			<div class="alert alert-success">{{ flashMessage }}</div>
 		{% endfor %}
 		{% for flashMessage in app.flashes('contacto') %}
+			<div class="alert alert-success">{{ flashMessage }}</div>
+		{% endfor %}
+		{% for flashMessage in app.flashes('auth') %}
 			<div class="alert alert-success">{{ flashMessage }}</div>
 		{% endfor %}
 	</div>
@@ -54,55 +60,55 @@
 		<div class="container">
 			<div class="row g--transicion2">
 				<div class="col-lg-6">
-					<img class="img-fluid img-alvaro" src="images/Alvaro.jpg" alt="">
+					<img class="img-fluid img-alvaro" src="/images/Alvaro.jpg" alt="">
 				</div>
 				<div class="col-lg-6">
 					<p class="fs-7 fw-bold mt-5">Un poco sobre nosotros</p>
 					<p class="mb-4 fw-medium text-dark">
 						En la tienda Beep de la Avenida Andalucia, nos gusta dar un trato personalizado a nuestros clientes.
-												                    Nos caracterizamos por nuestros productos de calidad y por dar solución a la gran mayoria de problemas
-												                    informáticos a nuestros clientes, tanto reparaciones de dispositivos móviles como de ordenadores.
+																		                    Nos caracterizamos por nuestros productos de calidad y por dar solución a la gran mayoria de problemas
+																		                    informáticos a nuestros clientes, tanto reparaciones de dispositivos móviles como de ordenadores.
 						<br>
 						Ofrecemos los siguientes servicios:
 					</p>
 					<div class="flip g--transicion2-oscuro p-1">
 						<div class="d-flex align-items-center mb-3">
-							<img class="me-sm-4 me-2" src="assets/img/manager/tick.png" width="35" alt="tick">
+							<img class="me-sm-4 me-2" src="/assets/img/manager/tick.png" width="35" alt="tick">
 							<p class="fw-medium mb-0 text-dark">Venta de productos y periféricos informáticos y electrónicos (ordenadores, tablets, móviles, etc)</p>
 						</div>
 						<p class="fw-medium mb-0 text-dark panel">En nuestra tienda, encontrarás una amplia selección de productos electrónicos,
-														                     incluyendo móviles, tablets y ordenadores personalizados. Nos enfocamos en ofrecer soluciones informáticas completas 
-														                    y satisfacer las necesidades de nuestros clientes más exigentes.</p>
+																					                     incluyendo móviles, tablets y ordenadores personalizados. Nos enfocamos en ofrecer soluciones informáticas completas 
+																					                    y satisfacer las necesidades de nuestros clientes más exigentes.</p>
 					</div>
 					<div class="flip g--transicion2-oscuro p-1">
 						<div class="d-flex align-items-center mb-3">
-							<img class="me-sm-4 me-2" src="assets/img/manager/tick.png" width="35" alt="tick">
+							<img class="me-sm-4 me-2" src="/assets/img/manager/tick.png" width="35" alt="tick">
 							<p class="fw-medium mb-0 text-dark">Reparaciones de ordenadores, móviles y tablets (pantallas, baterías, etc)</p>
 						</div>
 						<p class="fw-medium mb-0 text-dark panel">Ofrecemos servicios de reparación y reemplazo de componentes para dispositivos móviles, tablets y ordenadores. Nuestro equipo especializado está capacitado para solucionar problemas como pantallas rotas en móviles, reemplazo de discos duros en ordenadores y mucho más. Confía en nosotros para mantener tus dispositivos en excelente estado y funcionamiento</p>
 					</div>
 					<div class="flip g--transicion2-oscuro p-1">
 						<div class="d-flex align-items-center mb-3">
-							<img class="me-sm-4 me-2" src="assets/img/manager/tick.png" width="35" alt="tick">
+							<img class="me-sm-4 me-2" src="/assets/img/manager/tick.png" width="35" alt="tick">
 							<p class="fw-medium mb-0 text-dark">Servicio técnico al cliente a domiclio para solucionar problemas y averías</p>
 						</div>
 						<p class="fw-medium mb-0 text-dark panel">Experimenta la comodidad del servicio técnico a domicilio. Nuestros expertos resuelven problemas y averías informáticas con atención personalizada y soluciones a medida. Recupera la funcionalidad de tus dispositivos sin salir de casa.</p>
 					</div>
 					<div class="flip g--transicion2-oscuro p-1">
 						<div class="d-flex align-items-center mb-3">
-							<img class="me-sm-4 me-2" src="assets/img/manager/tick.png" width="35" alt="tick">
+							<img class="me-sm-4 me-2" src="/assets/img/manager/tick.png" width="35" alt="tick">
 							<p class="fw-medium mb-0 text-dark">Entrega de paqueterías (Mondial Relay)</p>
 						</div>
 						<p class="fw-medium mb-0 text-dark panel">Realizamos entregas de paqueterías a través del servicio Mondial Relay</p>
 					</div>
 					<div class="flip g--transicion2-oscuro p-1">
 						<div class="d-flex align-items-center mb-3">
-							<img class="me-sm-4 me-2" src="assets/img/manager/tick.png" width="35" alt="tick">
+							<img class="me-sm-4 me-2" src="/assets/img/manager/tick.png" width="35" alt="tick">
 							<p class="fw-medium mb-0 text-dark">Información y ayuda de teleoperadoras (DigiMovil, Simyo)</p>
 						</div>
 						<p class="fw-medium mb-0 text-dark panel">Te ofrecemos información y ayuda sobre operadoras como DigiMovil y Simyo</p>
 					</div>
-				
+
 
 				</div>
 			</div>
